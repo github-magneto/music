@@ -23,64 +23,10 @@ import SendOutlinedIcon from '@mui/icons-material/SendOutlined'
 import MediaPiano from './Media.Piano'
 
 import Imitation from '../utils/imitation'
-import { musicPlay, includesArray, agent } from '../utils/common'
 
-import { piano, asphalt } from '../media/index'
+import { asphalt } from '../media/index'
 
 const bgm = [...asphalt]
-
-function MusicButton(props) {
-  const { style, name, src, codeInclued, codeMain, codeExclude } = props
-
-  const ref = React.useRef()
-
-  const [click, setClick] = React.useState(false)
-
-  const onClick = () => {
-    musicPlay(src)
-    setClick(true)
-    if (ref.current) clearTimeout(ref.current)
-    ref.current = setTimeout(() => { setClick(false); ref.current = null }, 500)
-  }
-
-  const style_ = {
-    display: 'inline-flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    cursor: 'pointer',
-    transition: '0.5s all',
-    width: Imitation.state.musicButton.size + 'px',
-    height: Imitation.state.musicButton.size + 'px',
-    margin: Imitation.state.musicButton.margin + 'px',
-    borderRadius: 12,
-    fontWeight: 'bold',
-    position: 'relative',
-    fontSize: 12,
-    boxShadow: '0 4px 8px gray',
-    background: click ? 'gray' : 'white',
-    ...style
-  }
-
-  React.useEffect(() => {
-    if (codeMain && codeMain.length !== 0 && !codeMain.includes(Imitation.state.pressKeep[Imitation.state.pressKeep.length - 1])) return
-    if (!codeInclued.some(i => includesArray(i, Imitation.state.pressKeep))) return
-    if (codeExclude && codeExclude.length !== 0 && includesArray(codeExclude, Imitation.state.pressKeep)) return
-
-    onClick()
-  }, [Imitation.state.pressUpdate])
-
-  if (Imitation.state.musicButton.tooltip) {
-    return <Tooltip title={codeInclued.map(i => <div>{i.join(' + ')}</div>)}>
-      <div style={style_} onMouseDown={agent() === 'pc' ? onClick : undefined} onTouchStart={agent() === 'phone' ? onClick : undefined}>
-        <div>{name ? name : ''}</div>
-      </div>
-    </Tooltip>
-  } else {
-    return <div style={style_} onMouseDown={agent() === 'pc' ? onClick : undefined} onTouchStart={agent() === 'phone' ? onClick : undefined}>
-      <div>{name ? name : ''}</div>
-    </div>
-  }
-}
 
 function ModalBGM(props) {
   const { onClose, onClick } = props
@@ -198,6 +144,7 @@ function App() {
     }
     const event_ = (e) => {
       Imitation.state.pressKeep = Imitation.state.pressKeep.filter(i => !i.includes(e.code))
+      Imitation.setState(Imitation.state)
     }
 
     window.addEventListener('keydown', event)
@@ -212,7 +159,7 @@ function App() {
 
     <div style={{ width: '100%', height: '100%', overflow: 'hidden' }}>
       <div style={{ position: 'relative', width: '100%', height: '100%', transform: `scale(${Imitation.state.scale})` }}>
-        <MediaPiano components={{ MusicButton }} media={piano} />
+        <MediaPiano />
       </div>
     </div>
 

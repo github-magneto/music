@@ -1,7 +1,7 @@
-import piano from './code.paino.json'
+import keyboard from './code.keyboard.json'
+import piano from './code.piano.json'
 
-export { piano }
-
+export { keyboard, piano }
 
 import asphalt from './bgm.asphalt.json'
 

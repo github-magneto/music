@@ -1,0 +1,326 @@
+[
+  {
+    "name": "Space",
+    "codeInclued": [
+      [
+        "Space"
+      ]
+    ],
+    "codeExclude": [],
+    "codeMain": [
+      "Space"
+    ]
+  },
+  {
+    "name": "A",
+    "codeInclued": [
+      [
+        "KeyA"
+      ]
+    ],
+    "codeExclude": [],
+    "codeMain": [
+      "KeyA"
+    ]
+  },
+  {
+    "name": "B",
+    "codeInclued": [
+      [
+        "KeyB"
+      ]
+    ],
+    "codeExclude": [],
+    "codeMain": [
+      "KeyB"
+    ]
+  },
+  {
+    "name": "C",
+    "codeInclued": [
+      [
+        "KeyC"
+      ]
+    ],
+    "codeExclude": [],
+    "codeMain": [
+      "KeyC"
+    ]
+  },
+  {
+    "name": "D",
+    "codeInclued": [
+      [
+        "KeyD"
+      ]
+    ],
+    "codeExclude": [],
+    "codeMain": [
+      "KeyD"
+    ]
+  },
+  {
+    "name": "E",
+    "codeInclued": [
+      [
+        "KeyE"
+      ]
+    ],
+    "codeExclude": [],
+    "codeMain": [
+      "KeyE"
+    ]
+  },
+  {
+    "name": "F",
+    "codeInclued": [
+      [
+        "KeyF"
+      ]
+    ],
+    "codeExclude": [],
+    "codeMain": [
+      "KeyF"
+    ]
+  },
+  {
+    "name": "G",
+    "codeInclued": [
+      [
+        "KeyG"
+      ]
+    ],
+    "codeExclude": [],
+    "codeMain": [
+      "KeyG"
+    ]
+  },
+  {
+    "name": "H",
+    "codeInclued": [
+      [
+        "KeyH"
+      ]
+    ],
+    "codeExclude": [],
+    "codeMain": [
+      "KeyH"
+    ]
+  },
+  {
+    "name": "I",
+    "codeInclued": [
+      [
+        "KeyI"
+      ]
+    ],
+    "codeExclude": [],
+    "codeMain": [
+      "KeyI"
+    ]
+  },
+  {
+    "name": "J",
+    "codeInclued": [
+      [
+        "KeyJ"
+      ]
+    ],
+    "codeExclude": [],
+    "codeMain": [
+      "KeyJ"
+    ]
+  },
+  {
+    "name": "K",
+    "codeInclued": [
+      [
+        "KeyK"
+      ]
+    ],
+    "codeExclude": [],
+    "codeMain": [
+      "KeyK"
+    ]
+  },
+  {
+    "name": "L",
+    "codeInclued": [
+      [
+        "KeyL"
+      ]
+    ],
+    "codeExclude": [],
+    "codeMain": [
+      "KeyL"
+    ]
+  },
+  {
+    "name": "M",
+    "codeInclued": [
+      [
+        "KeyM"
+      ]
+    ],
+    "codeExclude": [],
+    "codeMain": [
+      "KeyM"
+    ]
+  },
+  {
+    "name": "N",
+    "codeInclued": [
+      [
+        "KeyN"
+      ]
+    ],
+    "codeExclude": [],
+    "codeMain": [
+      "KeyN"
+    ]
+  },
+  {
+    "name": "O",
+    "codeInclued": [
+      [
+        "KeyO"
+      ]
+    ],
+    "codeExclude": [],
+    "codeMain": [
+      "KeyO"
+    ]
+  },
+  {
+    "name": "P",
+    "codeInclued": [
+      [
+        "KeyP"
+      ]
+    ],
+    "codeExclude": [],
+    "codeMain": [
+      "KeyP"
+    ]
+  },
+  {
+    "name": "Q",
+    "codeInclued": [
+      [
+        "KeyQ"
+      ]
+    ],
+    "codeExclude": [],
+    "codeMain": [
+      "KeyQ"
+    ]
+  },
+  {
+    "name": "R",
+    "codeInclued": [
+      [
+        "KeyR"
+      ]
+    ],
+    "codeExclude": [],
+    "codeMain": [
+      "KeyR"
+    ]
+  },
+  {
+    "name": "S",
+    "codeInclued": [
+      [
+        "KeyS"
+      ]
+    ],
+    "codeExclude": [],
+    "codeMain": [
+      "KeyS"
+    ]
+  },
+  {
+    "name": "T",
+    "codeInclued": [
+      [
+        "KeyT"
+      ]
+    ],
+    "codeExclude": [],
+    "codeMain": [
+      "KeyT"
+    ]
+  },
+  {
+    "name": "U",
+    "codeInclued": [
+      [
+        "KeyU"
+      ]
+    ],
+    "codeExclude": [],
+    "codeMain": [
+      "KeyU"
+    ]
+  },
+  {
+    "name": "V",
+    "codeInclued": [
+      [
+        "KeyV"
+      ]
+    ],
+    "codeExclude": [],
+    "codeMain": [
+      "KeyV"
+    ]
+  },
+  {
+    "name": "W",
+    "codeInclued": [
+      [
+        "KeyW"
+      ]
+    ],
+    "codeExclude": [],
+    "codeMain": [
+      "KeyW"
+    ]
+  },
+  {
+    "name": "X",
+    "codeInclued": [
+      [
+        "KeyX"
+      ]
+    ],
+    "codeExclude": [],
+    "codeMain": [
+      "KeyX"
+    ]
+  },
+  {
+    "name": "Y",
+    "codeInclued": [
+      [
+        "KeyY"
+      ]
+    ],
+    "codeExclude": [],
+    "codeMain": [
+      "KeyY"
+    ]
+  },
+  {
+    "name": "Z",
+    "codeInclued": [
+      [
+        "KeyZ"
+      ]
+    ],
+    "codeExclude": [],
+    "codeMain": [
+      "KeyZ"
+    ]
+  }
+]

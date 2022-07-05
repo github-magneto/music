@@ -1,9 +1,13 @@
-function App(props) {
-  const { components, media } = props
+import React from 'react'
 
+import { Basic as MusicButtonBasic } from './Meida.MusicButton'
+
+import { keyboard, piano } from '../media/index'
+
+function App() {
   const names = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
 
-  return <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+  return <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', alignContent: 'center' }}>
     <div style={{ width: 'fit-content', height: 'fit-content', display: 'flex' }}>
 
       <div>
@@ -12,8 +16,8 @@ function App(props) {
             return <>
               <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
                 {
-                  media.filter(i => i.name.includes(name) && !i.name.includes('M')).map((i, index) => {
-                    return <components.MusicButton {...i} />
+                  piano.filter(i => i.name.includes(name) && !i.name.includes('M')).map((i, index) => {
+                    return <MusicButtonBasic {...i} />
                   })
                 }
               </div>
@@ -30,8 +34,8 @@ function App(props) {
             return <>
               <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
                 {
-                  media.filter(i => i.name.includes(name) && i.name.includes('M')).map((i, index) => {
-                    return <components.MusicButton {...i} />
+                  piano.filter(i => i.name.includes(name) && i.name.includes('M')).map((i, index) => {
+                    return <MusicButtonBasic {...i} />
                   })
                 }
               </div>
@@ -40,6 +44,35 @@ function App(props) {
         }
       </div>
 
+    </div>
+
+    <div style={{ width: '100%', height: 48 }}></div>
+
+    <div style={{ width: 'fit-content', height: 'fit-content', display: 'flex' }}>
+
+      <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+        {
+          keyboard.filter(i => 'RFVEDCWSX'.includes(i.name)).map((i, index) => {
+            return <MusicButtonBasic {...i} stay={true} />
+          })
+        }
+      </div>
+
+      <div style={{ width: '100%', display: 'flex', justifyContent: 'center', margin: '0 24px' }}>
+        {
+          keyboard.filter(i => 'Space' === i.name).map((i, index) => {
+            return <MusicButtonBasic {...i} stay={true} />
+          })
+        }
+      </div>
+
+      <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+        {
+          keyboard.filter(i => 'IJNOKMPL'.includes(i.name)).map((i, index) => {
+            return <MusicButtonBasic {...i} stay={true} />
+          })
+        }
+      </div>
     </div>
   </div>
 }
