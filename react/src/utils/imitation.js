@@ -9,12 +9,13 @@ ImitationINS.state = {
   pressKeep: [],
   pressUpdate: 0,
 
-  musicButtonStyle: {
+  musicButton: {
     size: 64,
-    margin: 8
+    margin: 8,
+    tooltip: true
   },
 
-  scale: 1
+  scale: 1,
 }
 
 export default ImitationINS

@@ -3,9 +3,7 @@ import React from 'react'
 import { Button } from '@mui/material'
 import { TextField } from '@mui/material'
 import { Slider } from '@mui/material'
-import { InputLabel } from '@mui/material'
-import { MenuItem } from '@mui/material'
-import { Select } from '@mui/material'
+import { Switch } from '@mui/material'
 import { Tooltip } from '@mui/material'
 import { Paper } from '@mui/material'
 import { Dialog } from '@mui/material'
@@ -51,9 +49,9 @@ function MusicButton(props) {
     alignItems: 'center',
     cursor: 'pointer',
     transition: '0.5s all',
-    width: Imitation.state.musicButtonStyle.size + 'px',
-    height: Imitation.state.musicButtonStyle.size + 'px',
-    margin: Imitation.state.musicButtonStyle.margin + 'px',
+    width: Imitation.state.musicButton.size + 'px',
+    height: Imitation.state.musicButton.size + 'px',
+    margin: Imitation.state.musicButton.margin + 'px',
     borderRadius: 12,
     fontWeight: 'bold',
     position: 'relative',
@@ -71,11 +69,17 @@ function MusicButton(props) {
     onClick()
   }, [Imitation.state.pressUpdate])
 
-  return <Tooltip title={codeInclued.map(i => <div>{i.join(' + ')}</div>)}>
-    <div style={style_} onClick={agent() === 'pc' ? onClick : undefined} onTouchStart={agent() === 'phone' ? onClick : undefined}>
+  if (Imitation.state.musicButton.tooltip) {
+    return <Tooltip title={codeInclued.map(i => <div>{i.join(' + ')}</div>)}>
+      <div style={style_} onMouseDown={agent() === 'pc' ? onClick : undefined} onTouchStart={agent() === 'phone' ? onClick : undefined}>
+        <div>{name ? name : ''}</div>
+      </div>
+    </Tooltip>
+  } else {
+    return <div style={style_} onMouseDown={agent() === 'pc' ? onClick : undefined} onTouchStart={agent() === 'phone' ? onClick : undefined}>
       <div>{name ? name : ''}</div>
     </div>
-  </Tooltip>
+  }
 }
 
 function ModalBGM(props) {
@@ -146,16 +150,21 @@ function ModalTool(props) {
     <DialogContent dividers>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <div>Playground Saale</div>
+          <div>Playground Scale</div>
           <Slider value={Imitation.state.scale} onChange={(e, v) => onChange((value) => value.scale = v)} min={0} max={2} step={0.01} valueLabelDisplay='auto' />
         </Grid>
         <Grid item xs={12}>
           <div>Button Size</div>
-          <Slider value={Imitation.state.musicButtonStyle.size} onChange={(e, v) => onChange((value) => value.musicButtonStyle.size = v)} min={40} max={100} step={1} valueLabelDisplay='auto' />
+          <Slider value={Imitation.state.musicButton.size} onChange={(e, v) => onChange((value) => value.musicButton.size = v)} min={40} max={100} step={1} valueLabelDisplay='auto' />
         </Grid>
         <Grid item xs={12}>
           <div>Button Space</div>
-          <Slider value={Imitation.state.musicButtonStyle.margin} onChange={(e, v) => onChange((value) => value.musicButtonStyle.margin = v)} min={0} max={24} step={1} valueLabelDisplay='auto' />
+          <Slider value={Imitation.state.musicButton.margin} onChange={(e, v) => onChange((value) => value.musicButton.margin = v)} min={0} max={24} step={1} valueLabelDisplay='auto' />
+        </Grid>
+
+        <Grid item xs={12} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>Button Tooltip</div>
+          <Switch checked={Imitation.state.musicButton.tooltip} onChange={(e) => onChange((value) => value.musicButton.tooltip = e.target.checked)} />
         </Grid>
       </Grid>
     </DialogContent>
@@ -180,6 +189,9 @@ function App() {
 
   React.useEffect(() => {
     const event = (e) => {
+      console.log(e.code)
+
+      if (Imitation.state.pressKeep[Imitation.state.pressKeep.length - 1] === e.code) return
       Imitation.state.pressKeep = Imitation.state.pressKeep.includes(e.code) ? Imitation.state.pressKeep : [...Imitation.state.pressKeep, e.code]
       Imitation.state.pressUpdate = Imitation.state.pressUpdate + 1
       Imitation.setState(Imitation.state)

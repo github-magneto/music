@@ -28,22 +28,7 @@ const copy = (v, callback) => {
 }
 
 const musicPlay = (src) => {
-  const audio = document.createElement('audio')
-  audio.style = 'display: none'
-
-  const source = document.createElement('source')
-  source.src = src
-
-  audio.appendChild(source)
-
-  const body = document.getElementsByTagName('body')[0]
-  body.appendChild(audio)
-
-  audio.play()
-
-  audio.onended = () => {
-    body.removeChild(audio)
-  }
+  new Audio(src).play()
 }
 
 const includesArray = (a, b) => {
