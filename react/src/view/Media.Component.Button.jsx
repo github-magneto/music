@@ -5,7 +5,7 @@ import { Tooltip } from '@mui/material'
 import Imitation from '../utils/imitation'
 import { musicPlay, includesArray, agent } from '../utils/common'
 
-function Basic(props) {
+function MediaButtonBasic(props) {
   const { style, name, src, codeInclued, codeMain, codeExclude, stay } = props
 
   const ref = React.useRef()
@@ -13,9 +13,7 @@ function Basic(props) {
   const [click, setClick] = React.useState(false)
 
   const onClick = () => {
-    try {
-      musicPlay(src)
-    } catch { }
+    musicPlay(src)
     setClick(true)
     if (ref.current) clearTimeout(ref.current)
     ref.current = setTimeout(() => { setClick(false); ref.current = null }, 500)
@@ -30,14 +28,15 @@ function Basic(props) {
   })
 
   const style_ = {
+    flexShrink: 0,
     display: 'inline-flex',
     justifyContent: 'center',
     alignItems: 'center',
     cursor: 'pointer',
     transition: '0.5s all',
-    width: Imitation.state.musicButton.size + 'px',
-    height: Imitation.state.musicButton.size + 'px',
-    margin: Imitation.state.musicButton.margin + 'px',
+    width: Imitation.state.mediaButton.size + 'px',
+    height: Imitation.state.mediaButton.size + 'px',
+    margin: Imitation.state.mediaButton.margin + 'px',
     borderRadius: 12,
     fontWeight: 'bold',
     position: 'relative',
@@ -55,7 +54,7 @@ function Basic(props) {
     onClick()
   }, [Imitation.state.pressUpdate])
 
-  if (Imitation.state.musicButton.tooltip) {
+  if (Imitation.state.mediaButton.tooltip) {
     return <Tooltip title={codeInclued.map(i => <div>{i.join(' + ')}</div>)}>
       <div style={style_} onMouseDown={agent() === 'pc' ? onClick : undefined} onTouchStart={agent() === 'phone' ? onClick : undefined}>
         <div>{name ? name : ''}</div>
@@ -68,4 +67,4 @@ function Basic(props) {
   }
 }
 
-export { Basic }
+export { MediaButtonBasic }

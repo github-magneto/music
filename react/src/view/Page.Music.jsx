@@ -21,12 +21,18 @@ import { Grid } from '@mui/material'
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined'
 
 import MediaPiano from './Media.Piano'
+import MediaHatsune from './Media.Hatsune'
 
 import Imitation from '../utils/imitation'
 
 import { asphalt } from '../media/index'
 
 const bgm = [...asphalt]
+
+const mediaMap = {
+  'Piano': MediaPiano,
+  'Hatsune': MediaHatsune
+}
 
 function ModalBGM(props) {
   const { onClose, onClick } = props
@@ -101,16 +107,16 @@ function ModalTool(props) {
         </Grid>
         <Grid item xs={12}>
           <div>Button Size</div>
-          <Slider value={Imitation.state.musicButton.size} onChange={(e, v) => onChange((value) => value.musicButton.size = v)} min={40} max={100} step={1} valueLabelDisplay='auto' />
+          <Slider value={Imitation.state.mediaButton.size} onChange={(e, v) => onChange((value) => value.mediaButton.size = v)} min={40} max={100} step={1} valueLabelDisplay='auto' />
         </Grid>
         <Grid item xs={12}>
           <div>Button Space</div>
-          <Slider value={Imitation.state.musicButton.margin} onChange={(e, v) => onChange((value) => value.musicButton.margin = v)} min={0} max={24} step={1} valueLabelDisplay='auto' />
+          <Slider value={Imitation.state.mediaButton.margin} onChange={(e, v) => onChange((value) => value.mediaButton.margin = v)} min={0} max={24} step={1} valueLabelDisplay='auto' />
         </Grid>
 
         <Grid item xs={12} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>Button Tooltip</div>
-          <Switch checked={Imitation.state.musicButton.tooltip} onChange={(e) => onChange((value) => value.musicButton.tooltip = e.target.checked)} />
+          <Switch checked={Imitation.state.mediaButton.tooltip} onChange={(e) => onChange((value) => value.mediaButton.tooltip = e.target.checked)} />
         </Grid>
       </Grid>
     </DialogContent>
@@ -131,7 +137,49 @@ function Tool() {
   </div>
 }
 
+function ModalConsole(props) {
+  const { onClose } = props
+
+  const handleClick = (v) => {
+    Imitation.assignState({ mediaConsole: v })
+    onClose()
+  }
+
+  return <Dialog open={true} sx={{ '& .MuiDialog-paper': { width: '100%', maxWidth: '720px' } }} onClose={onClose}>
+    <DialogTitle>Console</DialogTitle>
+
+    <DialogContent dividers>
+      <List style={{ maxHeight: 600, overflow: 'auto' }} component={Paper}>
+        {
+          Object.keys(mediaMap).map(i => {
+            return <ListItem>
+              <ListItemButton onClick={() => handleClick(i)}>
+                <ListItemText sx={{ '& .MuiTypography-root': { fontWeight: 'bold' } }}>{i}</ListItemText>
+              </ListItemButton>
+            </ListItem>
+          })
+        }
+      </List>
+    </DialogContent>
+  </Dialog>
+}
+
+function Console() {
+  const [modal, setModal] = React.useState()
+
+  return <div style={{ display: 'flex', alignItems: 'center' }}>
+
+    <Button color='inherit' onClick={() => setModal(true)}>Console</Button>
+
+    {
+      modal ? <ModalConsole onClose={() => setModal()} /> : null
+    }
+
+  </div>
+}
+
 function App() {
+  console.log(Imitation.state.pressKeep)
 
   React.useEffect(() => {
     const event = (e) => {
@@ -155,17 +203,20 @@ function App() {
     }
   }, [])
 
+  const Media = mediaMap[Imitation.state.mediaConsole]
+
   return <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
 
     <div style={{ width: '100%', height: '100%', overflow: 'hidden' }}>
       <div style={{ position: 'relative', width: '100%', height: '100%', transform: `scale(${Imitation.state.scale})` }}>
-        <MediaPiano />
+        <Media />
       </div>
     </div>
 
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', right: 12, bottom: 12, position: 'absolute', zIndex: 1, background: 'white' }}>
       <BGM />
       <Tool />
+      <Console />
     </div>
 
   </div>

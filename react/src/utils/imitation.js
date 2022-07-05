@@ -9,7 +9,9 @@ ImitationINS.state = {
   pressKeep: [],
   pressUpdate: 0,
 
-  musicButton: {
+  mediaConsole: 'Piano',
+
+  mediaButton: {
     size: 64,
     margin: 8,
     tooltip: true
