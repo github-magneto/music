@@ -35,6 +35,7 @@
   },
   "scripts": {
     "start": "node webpack/run.js --dev",
-    "build": "node webpack/run.js --prod"
+    "build": "node webpack/run.js --prod",
+    "start-s": "node webpack/run.js --prod --simple"
   }
 }

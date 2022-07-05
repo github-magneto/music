@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Button } from '@mui/material'
 import { TextField } from '@mui/material'
-import { FormControl } from '@mui/material'
+import { Slider } from '@mui/material'
 import { InputLabel } from '@mui/material'
 import { MenuItem } from '@mui/material'
 import { Select } from '@mui/material'
@@ -22,6 +22,8 @@ import { Grid } from '@mui/material'
 
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined'
 
+import MediaPiano from './Media.Piano'
+
 import Imitation from '../utils/imitation'
 import { musicPlay, includesArray, agent } from '../utils/common'
 
@@ -30,7 +32,7 @@ import { piano, asphalt } from '../media/index'
 const bgm = [...asphalt]
 
 function MusicButton(props) {
-  const { name, src, codeInclued, codeMain, codeExclude } = props
+  const { style, name, src, codeInclued, codeMain, codeExclude } = props
 
   const ref = React.useRef()
 
@@ -43,21 +45,22 @@ function MusicButton(props) {
     ref.current = setTimeout(() => { setClick(false); ref.current = null }, 500)
   }
 
-  const style = {
+  const style_ = {
     display: 'inline-flex',
     justifyContent: 'center',
     alignItems: 'center',
     cursor: 'pointer',
     transition: '0.5s all',
-    width: 80,
-    height: 80,
-    margin: 16,
+    width: Imitation.state.musicButtonStyle.size + 'px',
+    height: Imitation.state.musicButtonStyle.size + 'px',
+    margin: Imitation.state.musicButtonStyle.margin + 'px',
     borderRadius: 12,
     fontWeight: 'bold',
     position: 'relative',
     fontSize: 12,
     boxShadow: '0 4px 8px gray',
     background: click ? 'gray' : 'white',
+    ...style
   }
 
   React.useEffect(() => {
@@ -69,23 +72,10 @@ function MusicButton(props) {
   }, [Imitation.state.pressUpdate])
 
   return <Tooltip title={codeInclued.map(i => <div>{i.join(' + ')}</div>)}>
-    <div style={style} onClick={agent() === 'pc' ? onClick : undefined} onTouchStart={agent() === 'phone' ? onClick : undefined}>
+    <div style={style_} onClick={agent() === 'pc' ? onClick : undefined} onTouchStart={agent() === 'phone' ? onClick : undefined}>
       <div>{name ? name : ''}</div>
     </div>
   </Tooltip>
-}
-
-function MusicButtonList(props) {
-  const { list } = props
-
-  return <div style={{ maxWidth: 'none', width: 'fit-content', height: 'fit-content', margin: 'auto', display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
-    {
-      list.map((i, index) => {
-        return <MusicButton {...i} />
-      })
-    }
-  </div>
-
 }
 
 function ModalBGM(props) {
@@ -129,7 +119,7 @@ function BGM() {
 
   return <div style={{ display: 'flex', alignItems: 'center' }}>
 
-    <audio key={currentBGM.src} loop autoPlay controls style={{ flexGrow: 1 }}>
+    <audio key={currentBGM.src} loop autoPlay controls style={{ flexGrow: 1, height: 36 }}>
       <source src={currentBGM.src} />
     </audio>
 
@@ -145,17 +135,29 @@ function BGM() {
 function ModalTool(props) {
   const { onClose } = props
 
+  const onChange = fn => {
+    fn(Imitation.state)
+    Imitation.setState(Imitation.state)
+  }
+
   return <Dialog open={true} sx={{ '& .MuiDialog-paper': { width: '100%', maxWidth: '720px' } }} onClose={onClose}>
     <DialogTitle>Tool</DialogTitle>
 
     <DialogContent dividers>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-        <div style={{ fontWeight: 'bold' }}>pressMode</div>
-        <div>
-          <Button variant={Imitation.state.pressMode === 'includes' ? 'contained' : 'outlined'} onClick={() => Imitation.assignState({ pressMode: 'includes' })}>includes</Button>
-          <Button variant={Imitation.state.pressMode === 'same' ? 'contained' : 'outlined'} onClick={() => Imitation.assignState({ pressMode: 'same' })}>same</Button>
-        </div>
-      </div>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <div>Playground Saale</div>
+          <Slider value={Imitation.state.scale} onChange={(e, v) => onChange((value) => value.scale = v)} min={0} max={2} step={0.01} valueLabelDisplay='auto' />
+        </Grid>
+        <Grid item xs={12}>
+          <div>Button Size</div>
+          <Slider value={Imitation.state.musicButtonStyle.size} onChange={(e, v) => onChange((value) => value.musicButtonStyle.size = v)} min={40} max={100} step={1} valueLabelDisplay='auto' />
+        </Grid>
+        <Grid item xs={12}>
+          <div>Button Space</div>
+          <Slider value={Imitation.state.musicButtonStyle.margin} onChange={(e, v) => onChange((value) => value.musicButtonStyle.margin = v)} min={0} max={24} step={1} valueLabelDisplay='auto' />
+        </Grid>
+      </Grid>
     </DialogContent>
   </Dialog>
 }
@@ -194,14 +196,18 @@ function App() {
     }
   }, [])
 
-  return <div style={{ width: '100%', height: '100%', padding: 24, boxSizing: 'border-box' }}>
+  return <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
 
-    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-      <Tool />
-      <BGM />
+    <div style={{ width: '100%', height: '100%', overflow: 'hidden' }}>
+      <div style={{ position: 'relative', width: '100%', height: '100%', transform: `scale(${Imitation.state.scale})` }}>
+        <MediaPiano components={{ MusicButton }} media={piano} />
+      </div>
     </div>
 
-    <MusicButtonList list={piano} />
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', right: 12, bottom: 12, position: 'absolute', zIndex: 1, background: 'white' }}>
+      <BGM />
+      <Tool />
+    </div>
 
   </div>
 }

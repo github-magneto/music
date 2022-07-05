@@ -6,9 +6,15 @@ ImitationINS.state = {
   xhrLoading: false,
   message: 0,
 
-  pressMode: 'includes',
   pressKeep: [],
-  pressUpdate: 0
+  pressUpdate: 0,
+
+  musicButtonStyle: {
+    size: 64,
+    margin: 8
+  },
+
+  scale: 1
 }
 
 export default ImitationINS
