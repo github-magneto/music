@@ -16,7 +16,7 @@ const server = () => {
   })
 
   app.use(express.static('public'))
-  app.use('/api', require('./src/routerIndex.server.js'))
+  app.use('/api', require('./src/routerIndex.server'))
 
   const port = process.argv.filter(i => i.includes('port'))[0] ? process.argv.filter(i => i.includes('port'))[0].split('=')[1] : 80
 
