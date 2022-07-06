@@ -1,16 +1,15 @@
 if (process.env === 'dev') {
-  // var baseIp = 'http://localhost'
+  var baseIp = 'http://localhost:3000'
   // var baseIp = 'http://192.168.1.3'
-  var baseIp = 'http://124.100.0.0'
+  // var baseIp = 'http://124.100.0.0'
 }
 if (process.env === 'prod' || process.env === 'simple') {
   var baseIp = window.location.origin
 }
 
 const baseUrl = baseIp + '/api'
-const baseStatic = baseIp + '/file'
 
-export { baseIp, baseUrl, baseStatic }
+export { baseIp, baseUrl }
 
 import axios from 'axios'
 import Imitation from './imitation'
@@ -31,7 +30,6 @@ const changeLoading = e => {
 axiosINS.defaults.baseURL = baseUrl
 
 axiosINS.interceptors.request.use(config => {
-  if (Imitation.state.userInformation.token) config.headers.token = Imitation.state.userInformation.token
   changeLoading(true)
   return Promise.resolve(config)
 }, error => {

@@ -1,6 +1,6 @@
-import keyboard from './code.keyboard.json'
-import piano from './code.piano.json'
-import hatsune from './code.hatsune.json'
+import keyboard from './console.keyboard.json'
+import piano from './console.piano.json'
+import hatsune from './console.hatsune.json'
 
 export { keyboard, piano, hatsune }
 
