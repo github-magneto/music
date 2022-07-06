@@ -14,7 +14,9 @@ const bgmCollectionOptions = [
 ]
 
 function App() {
-  const currentBgmCollection = bgmCollectionOptions.find(i => i.name === Imitation.state.bgmCollection)
+  const currentBgmCollection = React.useMemo(() => {
+    return bgmCollectionOptions.find(i => i.name === Imitation.state.bgmCollection)
+  }, [Imitation.state.bgmCollection])
 
   const currentBgm = React.useMemo(() => {
     const need = currentBgmCollection.dependencies.filter(i => !Imitation.state.media.find(i_ => i_.name === i))

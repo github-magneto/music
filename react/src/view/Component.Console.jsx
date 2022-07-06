@@ -59,8 +59,8 @@ function ConsoleButtonBasic(props) {
       alignItems: 'center',
       cursor: 'pointer',
       transition: '0.5s all',
-      width: 64,
-      height: 64,
+      width: 72,
+      height: 72,
       margin: 8,
       borderRadius: 12,
       fontWeight: 'bold',
@@ -127,7 +127,7 @@ function ConsoleCorePiano(props) {
             return <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
               {
                 props.media['console.piano.json'].filter(i => i.name.includes(name) && !i.name.includes('M')).map((i, index) => {
-                  return <ConsoleButtonGradientRender {...i} />
+                  return <ConsoleButtonBasicRender {...i} />
                 })
               }
             </div>
@@ -143,7 +143,7 @@ function ConsoleCorePiano(props) {
             return <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
               {
                 props.media['console.piano.json'].filter(i => i.name.includes(name) && i.name.includes('M')).map((i, index) => {
-                  return <ConsoleButtonGradientRender {...i} />
+                  return <ConsoleButtonBasicRender {...i} />
                 })
               }
             </div>
@@ -160,7 +160,7 @@ function ConsoleCorePiano(props) {
       <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
         {
           props.media['console.keyboard.json'].filter(i => 'RFVEDCWSX'.includes(i.name)).map((i, index) => {
-            return <ConsoleButtonGradientRender {...i} stay={true} />
+            return <ConsoleButtonBasicRender {...i} stay={true} />
           })
         }
       </div>
@@ -168,7 +168,7 @@ function ConsoleCorePiano(props) {
       <div style={{ width: '100%', display: 'flex', justifyContent: 'center', margin: '0 24px' }}>
         {
           props.media['console.keyboard.json'].filter(i => 'Space' === i.name).map((i, index) => {
-            return <ConsoleButtonGradientRender {...i} stay={true} />
+            return <ConsoleButtonBasicRender {...i} stay={true} />
           })
         }
       </div>
@@ -176,7 +176,7 @@ function ConsoleCorePiano(props) {
       <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
         {
           props.media['console.keyboard.json'].filter(i => 'IJNOKMPL'.includes(i.name)).map((i, index) => {
-            return <ConsoleButtonGradientRender {...i} stay={true} />
+            return <ConsoleButtonBasicRender {...i} stay={true} />
           })
         }
       </div>
@@ -193,7 +193,7 @@ function ConsoleCoreHatsune(props) {
         return <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
           {
             props.media['console.hatsune.json'].filter((i, index_) => index_ >= index[0] && index_ <= index[1]).map((i) => {
-              return <ConsoleButtonGradientRender {...i} />
+              return <ConsoleButtonBasicRender {...i} />
             })
           }
         </div>
@@ -216,7 +216,18 @@ export const consoleCoreOptions = [
 ]
 
 function App() {
-  const currentConsole = consoleCoreOptions.find(i => i.name === Imitation.state.console)
+  const currentConsole = React.useMemo(() => {
+    return consoleCoreOptions.find(i => i.name === Imitation.state.console)
+  }, [Imitation.state.console])
+
+  const currentMedia = React.useMemo(() => {
+    const need = currentConsole.dependencies.filter(i => !Imitation.state.media.find(i_ => i_.name === i))
+    if (need.length) return
+
+    const r = {}
+    currentConsole.dependencies.forEach(i => r[i] = Imitation.state.media.find(i_ => i_.name === i).source)
+    return r
+  }, [Imitation.state.console, Imitation.state.media])
 
   React.useEffect(() => {
     const currentConsole = consoleCoreOptions.find(i => i.name === Imitation.state.console)
@@ -241,15 +252,6 @@ function App() {
       })
     }
   }, [Imitation.state.console])
-
-  const currentMedia = React.useMemo(() => {
-    const need = currentConsole.dependencies.filter(i => !Imitation.state.media.find(i_ => i_.name === i))
-    if (need.length) return
-
-    const r = {}
-    currentConsole.dependencies.forEach(i => r[i] = Imitation.state.media.find(i_ => i_.name === i).source)
-    return r
-  }, [Imitation.state.console, Imitation.state.media])
 
   return currentMedia ? <currentConsole.component media={currentMedia} /> : null
 }

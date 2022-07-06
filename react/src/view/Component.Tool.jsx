@@ -15,9 +15,7 @@ import { ListItemText } from '@mui/material'
 import { Grid } from '@mui/material'
 import { Tabs } from '@mui/material'
 import { Tab } from '@mui/material'
-import { InputLabel } from '@mui/material'
 import { MenuItem } from '@mui/material'
-import { FormControl } from '@mui/material'
 import { Select } from '@mui/material'
 
 import SettingsIcon from '@mui/icons-material/Settings'
@@ -36,21 +34,21 @@ function System() {
   return <Grid container spacing={2} alignContent='flex-start'>
     <Grid item xs={12} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
       <div style={{ fontWeight: 'bold', marginLeft: 24, minWidth: 240 }}>Playground Scale</div>
-      <Slider value={Imitation.state.scale} onChange={(e, v) => onChange((value) => value.scale = v)} min={0} max={2} step={0.01} valueLabelDisplay='auto' />
+      <Slider value={Imitation.state.scale} onChange={(e, v) => onChange((value) => value.scale = v)} min={0} max={2} step={0.01} valueLabelDisplay='auto' color='secondary' />
     </Grid>
 
     <Grid item xs={12} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
       <div style={{ fontWeight: 'bold', marginLeft: 24, minWidth: 240 }}>Tooltip</div>
-      <Switch checked={Imitation.state.tooltip} onChange={(e) => onChange((value) => value.tooltip = e.target.checked)} />
+      <Switch checked={Imitation.state.tooltip} onChange={(e) => onChange((value) => value.tooltip = e.target.checked)} color='secondary' />
     </Grid>
   </Grid>
 }
 
 function Console() {
-  return <List style={{ width: '100%', height: '100%', overflow: 'auto', boxSizing: 'border-box' }} component={Paper}>
+  return <List style={{ width: '100%', height: '100%', overflow: 'auto', boxSizing: 'border-box' }}>
     {
       consoleCoreOptions.map(i => {
-        return <ListItem>
+        return <ListItem disablePadding>
           <ListItemButton onClick={() => Imitation.assignState({ console: i.name })}>
             <ListItemText sx={{ '& .MuiTypography-root': { fontWeight: 'bold' } }}>{i.name}</ListItemText>
           </ListItemButton>
@@ -72,18 +70,15 @@ function BGM() {
   }, [Imitation.state.bgmCollection, Imitation.state.media])
 
   return <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
-    <FormControl fullWidth style={{ marginBottom: 24 }}>
-      <InputLabel>Bgm Group</InputLabel>
-      <Select label='Bgm Group' value={Imitation.state.bgmCollection} onChange={(e) => Imitation.assignState({ bgmCollection: e.target.value })}>
-        {
-          bgmCollectionOptions.map(i => <MenuItem key={i.name} value={i.name}>{i.name}</MenuItem>)
-        }
-      </Select>
-    </FormControl>
-    <List style={{ width: '100%', overflow: 'auto', flexGrow: 1 }} component={Paper}>
+    <Select value={Imitation.state.bgmCollection} onChange={(e) => Imitation.assignState({ bgmCollection: e.target.value, bgm: null })} fullWidth style={{ marginBottom: 12, fontWeight: 'bold' }}>
+      {
+        bgmCollectionOptions.map(i => <MenuItem key={i.name} value={i.name}>{i.name}</MenuItem>)
+      }
+    </Select>
+    <List style={{ width: '100%', overflow: 'auto', flexGrow: 1 }}>
       {
         currentBgmCollectionOptions.map(i => {
-          return <ListItem>
+          return <ListItem disablePadding>
             <ListItemButton onClick={() => Imitation.assignState({ bgm: i.name })}>
               <ListItemText sx={{ '& .MuiTypography-root': { fontWeight: 'bold' } }}>{i.name}</ListItemText>
             </ListItemButton>
@@ -103,8 +98,6 @@ function App() {
     <Fab onClick={() => setOpen(true)}><SettingsIcon /></Fab>
 
     <Dialog open={open} sx={{ '& .MuiDialog-paper': { width: '100%', maxWidth: '1080px', height: '720px', maxHeight: '75vh' } }} onClose={() => setOpen()}>
-      <DialogTitle>Tool</DialogTitle>
-
       <DialogContent dividers>
         <div style={{ display: 'flex', height: '100%' }}>
           <Tabs value={tab} onChange={(e, v) => setTab(v)} orientation='vertical' style={{ width: 120, flexShrink: 0 }} textColor='inherit' indicatorColor='secondary'>
@@ -127,7 +120,6 @@ function App() {
             }
           </div>
         </div>
-
       </DialogContent>
     </Dialog>
   </>
