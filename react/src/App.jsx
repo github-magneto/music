@@ -3,6 +3,7 @@ import { HashRouter, Route, Switch } from 'react-router-dom'
 
 import Default from './view/Page.Default'
 import Music from './view/Page.Music'
+import Base64 from './view/Page.Base64'
 import Message from './view/Component.Message'
 import Spin from './view/Component.Spin'
 
@@ -14,6 +15,7 @@ function App() {
     <Switch>
       <Route path='/' exact><Default /></Route>
       <Route path='/Music' exact><Music /></Route>
+      <Route path='/Base64' exact><Base64 /></Route>
     </Switch>
   </HashRouter>
 }

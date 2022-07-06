@@ -22,8 +22,8 @@ import { Select } from '@mui/material'
 
 import SettingsIcon from '@mui/icons-material/Settings'
 
-import { consoleButtonOptions, consoleCoreOptions } from './Component.Console'
-import { bgmGroupOptions } from './Component.BGM'
+import { consoleCoreOptions } from './Component.Console'
+import { bgmCollectionOptions } from './Component.BGM'
 
 import Imitation from '../utils/imitation'
 
@@ -33,38 +33,25 @@ function System() {
     Imitation.setState(Imitation.state)
   }
 
-  return <Grid container spacing={2}>
-    <Grid item xs={12}>
-      <div>Playground Scale</div>
+  return <Grid container spacing={2} alignContent='flex-start'>
+    <Grid item xs={12} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div style={{ fontWeight: 'bold', marginLeft: 24, minWidth: 240 }}>Playground Scale</div>
       <Slider value={Imitation.state.scale} onChange={(e, v) => onChange((value) => value.scale = v)} min={0} max={2} step={0.01} valueLabelDisplay='auto' />
     </Grid>
-    <Grid item xs={12}>
-      <div>Button Size</div>
-      <Slider value={Imitation.state.consoleButton.size} onChange={(e, v) => onChange((value) => value.consoleButton.size = v)} min={40} max={100} step={1} valueLabelDisplay='auto' />
-    </Grid>
-    <Grid item xs={12}>
-      <div>Button Space</div>
-      <Slider value={Imitation.state.consoleButton.margin} onChange={(e, v) => onChange((value) => value.consoleButton.margin = v)} min={0} max={24} step={1} valueLabelDisplay='auto' />
-    </Grid>
+
     <Grid item xs={12} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-      <div>Button Tooltip</div>
-      <Switch checked={Imitation.state.consoleButton.tooltip} onChange={(e) => onChange((value) => value.consoleButton.tooltip = e.target.checked)} />
-    </Grid>
-    <Grid item xs={12}>
-      <div>Button FeedBack</div>
-      {
-        consoleButtonOptions.map(i => <Button variant={Imitation.state.currentConsoleButton === i.name ? 'contained' : 'text'} style={{ margin: 12 }} onClick={() => onChange(v => v.currentConsoleButton = i.name)}>{i.name}</Button>)
-      }
+      <div style={{ fontWeight: 'bold', marginLeft: 24, minWidth: 240 }}>Tooltip</div>
+      <Switch checked={Imitation.state.tooltip} onChange={(e) => onChange((value) => value.tooltip = e.target.checked)} />
     </Grid>
   </Grid>
 }
 
 function Console() {
-  return <List style={{ width: '100%', maxHeight: 600, overflow: 'auto' }} component={Paper}>
+  return <List style={{ width: '100%', height: '100%', overflow: 'auto', boxSizing: 'border-box' }} component={Paper}>
     {
       consoleCoreOptions.map(i => {
         return <ListItem>
-          <ListItemButton onClick={() => Imitation.assignState({ currentConsoleCore: i.name })}>
+          <ListItemButton onClick={() => Imitation.assignState({ console: i.name })}>
             <ListItemText sx={{ '& .MuiTypography-root': { fontWeight: 'bold' } }}>{i.name}</ListItemText>
           </ListItemButton>
         </ListItem>
@@ -74,47 +61,40 @@ function Console() {
 }
 
 function BGM() {
-  const onChangeBgmGroup = e => {
-    Imitation.assignState({ currentBgmGroup: e.target.value, })
-  }
+  const currentBgmCollectionOptions = React.useMemo(() => {
+    const currentBgmCollection = bgmCollectionOptions.find(i => i.name === Imitation.state.bgmCollection)
 
-  const onChangeBgm = e => {
-    Imitation.assignState({ currentBgm: e.target.value })
-  }
-
-  const currentBgmGroupOptions = React.useMemo(() => {
-    const currentBgmGroup = bgmGroupOptions.find(i => i.name === Imitation.state.currentBgmGroup)
-
-    const group = Imitation.state.mediaSource
-      .filter(i => currentBgmGroup.dependencies.includes(i.name))
+    const group = Imitation.state.media
+      .filter(i => currentBgmCollection.dependencies.includes(i.name))
       .reduce((t, i) => [...t, ...i.source], [])
 
     return group
-  }, [Imitation.state.currentBgmGroup, Imitation.state.mediaSource])
+  }, [Imitation.state.bgmCollection, Imitation.state.media])
 
-  return <div style={{ width: '100%' }}>
+  return <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
     <FormControl fullWidth style={{ marginBottom: 24 }}>
       <InputLabel>Bgm Group</InputLabel>
-      <Select label='Bgm Group' value={Imitation.state.currentBgmGroup} onChange={onChangeBgmGroup}>
+      <Select label='Bgm Group' value={Imitation.state.bgmCollection} onChange={(e) => Imitation.assignState({ bgmCollection: e.target.value })}>
         {
-          bgmGroupOptions.map(i => <MenuItem key={i.name} value={i.name}>{i.name}</MenuItem>)
+          bgmCollectionOptions.map(i => <MenuItem key={i.name} value={i.name}>{i.name}</MenuItem>)
         }
       </Select>
     </FormControl>
-    <FormControl fullWidth>
-      <InputLabel>Bgm</InputLabel>
-      <Select label='Bgm' value={Imitation.state.currentBgm} onChange={onChangeBgm}  >
-        {
-          currentBgmGroupOptions.map(i => <MenuItem key={i.name} value={i.name}>{i.name}</MenuItem>)
-        }
-      </Select>
-    </FormControl>
+    <List style={{ width: '100%', overflow: 'auto', flexGrow: 1 }} component={Paper}>
+      {
+        currentBgmCollectionOptions.map(i => {
+          return <ListItem>
+            <ListItemButton onClick={() => Imitation.assignState({ bgm: i.name })}>
+              <ListItemText sx={{ '& .MuiTypography-root': { fontWeight: 'bold' } }}>{i.name}</ListItemText>
+            </ListItemButton>
+          </ListItem>
+        })
+      }
+    </List>
   </div>
 }
 
-function App(props) {
-  const { onClose } = props
-
+function App() {
   const [open, setOpen] = React.useState(false)
   const [tab, setTab] = React.useState('System')
   const [options, setOptions] = React.useState(['System', 'Console', 'BGM'])
@@ -122,28 +102,30 @@ function App(props) {
   return <>
     <Fab onClick={() => setOpen(true)}><SettingsIcon /></Fab>
 
-    <Dialog open={open} sx={{ '& .MuiDialog-paper': { width: '100%', maxWidth: '1080px' } }} onClose={() => setOpen()}>
+    <Dialog open={open} sx={{ '& .MuiDialog-paper': { width: '100%', maxWidth: '1080px', height: '720px', maxHeight: '75vh' } }} onClose={() => setOpen()}>
       <DialogTitle>Tool</DialogTitle>
 
       <DialogContent dividers>
-        <div style={{ display: 'flex' }}>
-          <Tabs value={tab} onChange={(e, v) => setTab(v)} orientation='vertical' style={{ width: 120, flexShrink: 0 }}>
+        <div style={{ display: 'flex', height: '100%' }}>
+          <Tabs value={tab} onChange={(e, v) => setTab(v)} orientation='vertical' style={{ width: 120, flexShrink: 0 }} textColor='inherit' indicatorColor='secondary'>
             {
               options.map((i, index) => {
-                return <Tab key={index} value={i} label={i}></Tab>
+                return <Tab key={index} value={i} label={i} style={{ fontWeight: 'bold' }}></Tab>
               })
             }
           </Tabs>
           <div style={{ width: 48 }}></div>
-          {
-            tab === 'System' ? <System /> : null
-          }
-          {
-            tab === 'Console' ? <Console /> : null
-          }
-          {
-            tab === 'BGM' ? <BGM /> : null
-          }
+          <div style={{ padding: 24, width: '100%', height: '100%', boxSizing: 'border-box' }}>
+            {
+              tab === 'System' ? <System /> : null
+            }
+            {
+              tab === 'Console' ? <Console /> : null
+            }
+            {
+              tab === 'BGM' ? <BGM /> : null
+            }
+          </div>
         </div>
 
       </DialogContent>

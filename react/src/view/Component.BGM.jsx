@@ -2,31 +2,36 @@ import React from 'react'
 
 import Imitation from '../utils/imitation'
 
-const bgmGroupOptions = [
+const bgmCollectionOptions = [
   {
     name: 'Asphalt',
     dependencies: ['bgm.asphalt.json']
+  },
+  {
+    name: 'Warcraft',
+    dependencies: ['bgm.warcraft.json']
   }
 ]
 
 function App() {
-  const currentBgmGroup = bgmGroupOptions.find(i => i.name === Imitation.state.currentBgmGroup)
+  const currentBgmCollection = bgmCollectionOptions.find(i => i.name === Imitation.state.bgmCollection)
 
   const currentBgm = React.useMemo(() => {
-    const need = currentBgmGroup.dependencies.filter(i => !Imitation.state.mediaSource.find(i_ => i_.name === i))
+    const need = currentBgmCollection.dependencies.filter(i => !Imitation.state.media.find(i_ => i_.name === i))
+
     if (need.length) return
 
-    const group = Imitation.state.mediaSource
-      .filter(i => currentBgmGroup.dependencies.includes(i.name))
+    const group = Imitation.state.media
+      .filter(i => currentBgmCollection.dependencies.includes(i.name))
       .reduce((t, i) => [...t, ...i.source], [])
 
-    const current = group.find(i => i.name === Imitation.state.currentBgm)
+    const current = group.find(i => i.name === Imitation.state.bgm)
 
     return current
-  }, [Imitation.state.currentBgm, Imitation.state.mediaSource])
+  }, [Imitation.state.bgm, Imitation.state.media])
 
   React.useEffect(() => {
-    const need = currentBgmGroup.dependencies.filter(i => !Imitation.state.mediaSource.find(i_ => i_.name === i))
+    const need = currentBgmCollection.dependencies.filter(i => !Imitation.state.media.find(i_ => i_.name === i))
 
     if (need.length) {
       Imitation.state.xhrLoading = true
@@ -35,29 +40,30 @@ function App() {
         need.map(i => {
           return new Promise((resolve) => {
             if (i === 'bgm.asphalt.json') import('../media/bgm.asphalt.json').then(res => resolve({ name: i, source: res.default }))
+            if (i === 'bgm.warcraft.json') import('../media/bgm.warcraft.json').then(res => resolve({ name: i, source: res.default }))
           })
         })
       ).then(res => {
-        Imitation.state.mediaSource = [...Imitation.state.mediaSource, ...res]
+        Imitation.state.media = [...Imitation.state.media, ...res]
         Imitation.state.xhrLoading = false
         Imitation.setState(Imitation.state)
       })
     }
-  }, [Imitation.state.currentBgmGroup])
+  }, [Imitation.state.bgmCollection])
 
   React.useEffect(() => {
-    if (Imitation.state.currentBgm) return
+    if (Imitation.state.bgm) return
 
-    const need = currentBgmGroup.dependencies.filter(i => !Imitation.state.mediaSource.find(i_ => i_.name === i))
+    const need = currentBgmCollection.dependencies.filter(i => !Imitation.state.media.find(i_ => i_.name === i))
     if (need.length) return
 
-    const group = Imitation.state.mediaSource
-      .filter(i => currentBgmGroup.dependencies.includes(i.name))
+    const group = Imitation.state.media
+      .filter(i => currentBgmCollection.dependencies.includes(i.name))
       .reduce((t, i) => [...t, ...i.source], [])
 
-    Imitation.state.currentBgm = group[0].name
+    Imitation.state.bgm = group[0].name
     Imitation.setState(Imitation.state)
-  }, [Imitation.state.currentBgmGroup, Imitation.state.mediaSource])
+  }, [Imitation.state.bgmCollection, Imitation.state.media])
 
   if (!currentBgm) return null
 
@@ -66,4 +72,4 @@ function App() {
 
 export default App
 
-export { bgmGroupOptions }
+export { bgmCollectionOptions }

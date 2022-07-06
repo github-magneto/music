@@ -9,20 +9,14 @@ ImitationINS.state = {
   pressKeep: [],
   pressUpdate: 0,
 
-  consoleButton: {
-    size: 64,
-    margin: 8,
-    tooltip: true
-  },
-
+  tooltip: true,
   scale: 1,
 
-  mediaSource: [],
+  media: [],
 
-  currentConsoleCore: 'Piano',
-  currentConsoleButton: 'Basic',
-  currentBgmGroup: 'Asphalt',
-  currentBgm: null,
+  console: 'Piano',
+  bgmCollection: 'Asphalt',
+  bgm: null,
 }
 
 export default ImitationINS
