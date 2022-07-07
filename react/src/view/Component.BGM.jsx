@@ -10,7 +10,11 @@ const bgmCollectionOptions = [
   {
     name: 'Warcraft',
     dependencies: ['bgm.warcraft.json']
-  }
+  },
+  {
+    name: 'JOJO',
+    dependencies: ['bgm.jojo.json']
+  },
 ]
 
 function App() {
@@ -43,6 +47,7 @@ function App() {
           return new Promise((resolve) => {
             if (i === 'bgm.asphalt.json') import('../media/bgm.asphalt.json').then(res => resolve({ name: i, source: res.default }))
             if (i === 'bgm.warcraft.json') import('../media/bgm.warcraft.json').then(res => resolve({ name: i, source: res.default }))
+            if (i === 'bgm.jojo.json') import('../media/bgm.jojo.json').then(res => resolve({ name: i, source: res.default }))
           })
         })
       ).then(res => {
@@ -69,7 +74,7 @@ function App() {
 
   if (!currentBgm) return null
 
-  return <audio key={currentBgm.src} loop autoPlay controls><source src={currentBgm.src} /></audio>
+  return <audio key={currentBgm.src} loop autoPlay controls style={{ width: '100%' }}><source src={currentBgm.src} /></audio>
 }
 
 export default App

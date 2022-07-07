@@ -33,23 +33,23 @@ function System() {
 
   return <Grid container spacing={2} alignContent='flex-start'>
     <Grid item xs={12} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-      <div style={{ fontWeight: 'bold', marginLeft: 24, minWidth: 240 }}>Playground Scale</div>
+      <div style={{ fontWeight: 'bold', marginLeft: 24, minWidth: 100 }}>Scale</div>
       <Slider value={Imitation.state.scale} onChange={(e, v) => onChange((value) => value.scale = v)} min={0} max={2} step={0.01} valueLabelDisplay='auto' color='secondary' />
     </Grid>
 
     <Grid item xs={12} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-      <div style={{ fontWeight: 'bold', marginLeft: 24, minWidth: 240 }}>Tooltip</div>
+      <div style={{ fontWeight: 'bold', marginLeft: 24, minWidth: 100 }}>Tooltip</div>
       <Switch checked={Imitation.state.tooltip} onChange={(e) => onChange((value) => value.tooltip = e.target.checked)} color='secondary' />
     </Grid>
   </Grid>
 }
 
-function Console() {
+function Console(props) {
   return <List style={{ width: '100%', height: '100%', overflow: 'auto', boxSizing: 'border-box' }}>
     {
       consoleCoreOptions.map(i => {
         return <ListItem disablePadding>
-          <ListItemButton onClick={() => Imitation.assignState({ console: i.name })}>
+          <ListItemButton onClick={() => { Imitation.assignState({ console: i.name }); props.onClose() }}>
             <ListItemText sx={{ '& .MuiTypography-root': { fontWeight: 'bold' } }}>{i.name}</ListItemText>
           </ListItemButton>
         </ListItem>
@@ -89,34 +89,60 @@ function BGM() {
   </div>
 }
 
+function Help() {
+  return <div style={{ width: '100%', height: '100%', overflow: 'auto' }}>
+    <div style={{ fontWeight: 'bold', lineHeight: 1.5 }}>
+      If you are in phone, you can not use comfortably.
+      <br />
+      You should change to computer or ipad.
+      <br />
+      <br />
+      If you are in computer or ipad, and console buttons are outside the screen.
+      <br />
+      You can switch to 'System' in left bar, and action in 'Scale' to control the scale.
+      <br />
+      <br />
+      If you are in computer, and console buttons are outside the screen.
+      <br />
+      You can press 'Control' and '-' to shrink screen.
+    </div>
+  </div>
+}
+
 function App() {
   const [open, setOpen] = React.useState(false)
   const [tab, setTab] = React.useState('System')
-  const [options, setOptions] = React.useState(['System', 'Console', 'BGM'])
+  const [options, setOptions] = React.useState(['System', 'Console', 'BGM', 'Help'])
+
+  const onClose = () => {
+    setOpen()
+  }
 
   return <>
     <Fab onClick={() => setOpen(true)}><SettingsIcon /></Fab>
 
-    <Dialog open={open} sx={{ '& .MuiDialog-paper': { width: '100%', maxWidth: '1080px', height: '720px', maxHeight: '75vh' } }} onClose={() => setOpen()}>
+    <Dialog open={open} sx={{ '& .MuiDialog-paper': { width: '100%', maxWidth: '1080px', height: '720px', maxHeight: Imitation.state.screenHeight - 200 } }} onClose={onClose}>
       <DialogContent dividers>
-        <div style={{ display: 'flex', height: '100%' }}>
-          <Tabs value={tab} onChange={(e, v) => setTab(v)} orientation='vertical' style={{ width: 120, flexShrink: 0 }} textColor='inherit' indicatorColor='secondary'>
+        <div style={{ display: 'flex', height: '100%', flexDirection: Imitation.state.screenWidth > 720 ? 'row' : 'column' }}>
+          <Tabs value={tab} onChange={(e, v) => setTab(v)} orientation={Imitation.state.screenWidth > 720 ? 'vertical' : 'horizontal'} style={{ width: Imitation.state.screenWidth > 720 ? 120 : '100%', flexShrink: 0 }} textColor='inherit' indicatorColor='secondary' variant='scrollable'>
             {
               options.map((i, index) => {
                 return <Tab key={index} value={i} label={i} style={{ fontWeight: 'bold' }}></Tab>
               })
             }
           </Tabs>
-          <div style={{ width: 48 }}></div>
-          <div style={{ padding: 24, width: '100%', height: '100%', boxSizing: 'border-box' }}>
+          <div style={{ padding: Imitation.state.screenWidth > 720 ? 24 : '12px 0', width: Imitation.state.screenWidth > 720 ? 0 : '100%', height: Imitation.state.screenWidth > 720 ? '100%' : 0, boxSizing: 'border-box', flexGrow: 1 }}>
             {
-              tab === 'System' ? <System /> : null
+              tab === 'System' ? <System onClose={onClose} /> : null
             }
             {
-              tab === 'Console' ? <Console /> : null
+              tab === 'Console' ? <Console onClose={onClose} /> : null
             }
             {
-              tab === 'BGM' ? <BGM /> : null
+              tab === 'BGM' ? <BGM onClose={onClose} /> : null
+            }
+            {
+              tab === 'Help' ? <Help onClose={onClose} /> : null
             }
           </div>
         </div>

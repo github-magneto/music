@@ -7,7 +7,6 @@ import BGM from './Component.BGM'
 import Imitation from '../utils/imitation'
 
 function App() {
-
   React.useEffect(() => {
     const event = (e) => {
       console.log(e.code)
@@ -30,19 +29,32 @@ function App() {
     }
   }, [])
 
-  return <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
+  React.useEffect(() => {
+    const e = () => {
+      Imitation.assignState({ screenWidth: document.documentElement.clientWidth, screenHeight: document.documentElement.clientHeight })
+    }
+    e()
+
+    window.addEventListener('resize', e)
+
+    return () => window.removeEventListener('resize', e)
+  }, [])
+
+  if (!Imitation.state.screenWidth || !Imitation.state.screenHeight) return null
+
+  return <div style={{ width: Imitation.state.screenWidth, height: Imitation.state.screenHeight, position: 'relative' }}>
 
     <div style={{ width: '100%', height: '100%', overflow: 'hidden' }}>
-      <div style={{ position: 'relative', width: '100%', height: '100%', transform: `scale(${Imitation.state.scale})` }}>
+      <div style={{ position: 'relative', width: '100%', height: '100%', transform: `scale(${Imitation.state.scale})`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Console />
       </div>
     </div>
 
-    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', right: 12, bottom: 12, position: 'absolute', zIndex: 1 }}>
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', right: 12, top: 12, position: 'absolute', zIndex: 1 }}>
       <Tool />
     </div>
 
-    <div style={{ width: 'fit-content', bottom: 12, left: 0, right: 0, margin: 'auto', position: 'absolute', zIndex: 1 }}>
+    <div style={{ width: 'fit-content', bottom: 12, left: 0, right: 0, margin: 'auto', position: 'absolute', zIndex: 1, width: 'calc(100% - 24px)' }}>
       <BGM />
     </div>
 

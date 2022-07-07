@@ -14,9 +14,12 @@ ImitationINS.state = {
 
   media: [],
 
-  console: 'Piano',
-  bgmCollection: 'Asphalt',
+  console: 'JazzDrum',
+  bgmCollection: 'JOJO',
   bgm: null,
+
+  screenWidth: 0,
+  screenHeight: 0,
 }
 
 export default ImitationINS
