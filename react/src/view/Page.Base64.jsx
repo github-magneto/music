@@ -69,6 +69,8 @@ function Many() {
 
     const r = JSON.stringify(l)
 
+    console.log(r)
+
     copy(r, () => Imitation.assignState({ message: r.length }))
   }
 
