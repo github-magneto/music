@@ -34,27 +34,91 @@ const parseUrl = async (list) => {
   }
 }
 
-const varCode = async (list) => {
-  const codes = ['KeyA', 'KeyB', 'KeyC', 'KeyD', 'KeyE', 'KeyF', 'KeyG', 'KeyH', 'KeyI', 'KeyJ', 'KeyK', 'KeyL', 'KeyM', 'KeyN', 'KeyO', 'KeyP', 'KeyQ', 'KeyR', 'KeyS', 'KeyT', 'KeyU', 'KeyV', 'KeyW', 'KeyX', 'KeyY', 'KeyZ', 'Comma', 'BracketLeft', 'Semicolon', 'Period', 'BracketRight', 'Quote', 'Slash']
+const run = async () => {
+  const pathname = '../media/console.piano.json'
+  const pathname_ = '../media/console.piano2.json'
 
-  list.forEach((i, index) => {
-    i.codeInclued = [[codes[index]]]
-    i.codeExclude = []
-    i.codeMain = [codes[index]]
-    i.name = 'Jazz Drum'
+  var file = require(pathname)
+
+  const code0 = ['KeyA', 'KeyB', 'KeyC', 'KeyD', 'KeyE', 'KeyF', 'KeyG', 'KeyH', 'KeyI', 'KeyJ', 'KeyK', 'KeyL', 'KeyM', 'KeyN', 'KeyO', 'KeyP', 'KeyQ', 'KeyR', 'KeyS', 'KeyT', 'KeyU', 'KeyV', 'KeyW', 'KeyX', 'KeyY', 'KeyZ', 'Comma', 'BracketLeft', 'Semicolon', 'Period', 'BracketRight', 'Quote', 'Slash']
+
+  var codeMap = {
+    'A': 'F',
+    'B': 'G',
+    'C': 'T',
+    'D': 'R',
+    'E': 'D',
+    'F': 'C',
+    'G': 'V',
+
+    '1': 'J',
+    '2': 'H',
+    '3': 'U',
+    '4': 'I',
+    '5': 'K',
+    '6': 'M',
+    '7': 'N',
+  }
+
+  file = file.map(i => {
+
+    var p = {
+      "codeInclued": [[]],
+      "codeExclude": [],
+      "codeMain": []
+    }
+
+    if (['A0'].includes(i.name)) {
+      p = {
+        "codeInclued": [['KeyQ']],
+        "codeMain": ['KeyQ']
+      }
+      return { ...i, ...p }
+    }
+
+    if (['A0M'].includes(i.name)) {
+      p = {
+        "codeInclued": [['KeyW']],
+        "codeMain": ['KeyW']
+      }
+      return { ...i, ...p }
+    }
+
+    if (['B0'].includes(i.name)) {
+      p = {
+        "codeInclued": [['KeyA']],
+        "codeMain": ['KeyA']
+      }
+      return { ...i, ...p }
+    }
+
+    if (['C8'].includes(i.name)) {
+      p = {
+        "codeInclued": [['KeyS']],
+        "codeMain": ['KeyS']
+      }
+      return { ...i, ...p }
+    }
+
+    if (i.name.includes('M')) {
+      p.codeInclued[0].push('Space')
+    } else {
+      p.codeExclude.push('Space')
+    }
+
+    p.codeInclued[0].push('Key' + codeMap[i.name.split('')[0]])
+    p.codeInclued[0].push('Key' + codeMap[i.name.split('')[1]])
+
+    p.codeMain.push('Key' + codeMap[i.name.split('')[0]])
+    p.codeMain.push('Key' + codeMap[i.name.split('')[1]])
+
+    if (i.name.includes(''))
+      return { ...i, ...p }
   })
 
-  return list
-}
+  varCode(file, code0)
 
-const run = async () => {
-  const pathname = './console.jazzdrum.json'
-
-  const file = require(pathname)
-
-  const r = await varCode(file)
-
-  fs.writeFileSync(path.join(__dirname, pathname), JSON.stringify(r))
+  fs.writeFileSync(path.join(__dirname, pathname_), JSON.stringify(file))
 }
 
 run()

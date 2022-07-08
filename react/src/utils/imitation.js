@@ -9,12 +9,12 @@ ImitationINS.state = {
   pressKeep: [],
   pressUpdate: 0,
 
-  tooltip: true,
+  tooltip: false,
   scale: 1,
 
   media: [],
 
-  console: 'JazzDrum',
+  console: 'Piano',
   bgmCollection: 'JOJO',
   bgm: null,
 

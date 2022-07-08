@@ -27,6 +27,24 @@ const copy = (v, callback) => {
   document.body.removeChild(input)
 }
 
+
+function AudioControl() {
+  this.audios = new Array(8).fill().map(i => {
+    const audio = new Audio()
+    audio.playing = false
+    audio.onended = () => audio.playing = false
+    return audio
+  })
+}
+
+AudioControl.prototype.play = function (src) {
+  const audio = this.audios.find(i => !i.playing)
+  if (!audio) return
+  audio.playing = true
+  audio.src = src
+  audio.play()
+}
+
 const musicPlay = (src) => {
   new Audio(src).play()
 }
