@@ -166,14 +166,14 @@ function ConsoleCoreHatsune(props) {
     <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
       <div>
         {
-          props.media['console.beat.json'].map((i) => {
+          props.media['console.hatsune.json'].filter(i => i.name === 'Beat').map((i) => {
             return <ConsoleButtonGradientRender {...i} />
           })
         }
       </div>
       <div style={{ width: 800, display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
         {
-          props.media['console.hatsune.json'].map((i) => {
+          props.media['console.hatsune.json'].filter(i => i.name === 'Hatsune').map((i) => {
             return <ConsoleButtonGradientRender {...i} />
           })
         }
@@ -220,7 +220,7 @@ export const consoleCoreOptions = [
   },
   {
     name: 'Hatsune',
-    dependencies: ['console.hatsune.json', 'console.beat.json'],
+    dependencies: ['console.hatsune.json'],
     component: ConsoleCoreHatsune,
   },
 ]
@@ -254,7 +254,6 @@ function App() {
             if (i === 'console.jazz-drum.json') import('../media/console.jazz-drum.json').then(res => resolve({ name: i, source: res.default }))
             if (i === 'console.keyboard.json') import('../media/console.keyboard.json').then(res => resolve({ name: i, source: res.default }))
             if (i === 'console.hatsune.json') import('../media/console.hatsune.json').then(res => resolve({ name: i, source: res.default }))
-            if (i === 'console.beat.json') import('../media/console.beat.json').then(res => resolve({ name: i, source: res.default }))
           })
         })
       ).then(res => {

@@ -43,22 +43,39 @@ const run = async () => {
   const code0 = ['KeyA', 'KeyB', 'KeyC', 'KeyD', 'KeyE', 'KeyF', 'KeyG', 'KeyH', 'KeyI', 'KeyJ', 'KeyK', 'KeyL', 'KeyM', 'KeyN', 'KeyO', 'KeyP', 'KeyQ', 'KeyR', 'KeyS', 'KeyT', 'KeyU', 'KeyV', 'KeyW', 'KeyX', 'KeyY', 'KeyZ', 'Comma', 'BracketLeft', 'Semicolon', 'Period', 'BracketRight', 'Quote', 'Slash']
 
   var codeMap = {
-    'A': 'F',
-    'B': 'G',
-    'C': 'T',
-    'D': 'R',
-    'E': 'D',
-    'F': 'C',
-    'G': 'V',
+    '1': 'F',
+    '2': 'G',
+    '3': 'T',
+    '4': 'R',
+    '5': 'D',
+    '6': 'C',
+    '7': 'V',
 
-    '1': 'J',
-    '2': 'H',
-    '3': 'U',
-    '4': 'I',
-    '5': 'K',
-    '6': 'M',
-    '7': 'N',
+    'A': 'J',
+    'B': 'H',
+    'C': 'U',
+    'D': 'I',
+    'E': 'K',
+    'F': 'M',
+    'G': 'N',
   }
+
+  var codeMap_ = {
+    'A': 1,
+    'B': 2,
+    'C': 3,
+    'D': 4,
+    'E': 5,
+    'F': 6,
+    'G': 7,
+  }
+
+  const c_n = (c) => {
+    var [a, b, c] = c.split('')
+
+    return b * 100 + codeMap_(a) + c ? 0.5 : 0
+  }
+
 
   file = file.map(i => {
 
@@ -114,6 +131,10 @@ const run = async () => {
 
     if (i.name.includes(''))
       return { ...i, ...p }
+  })
+
+  file = file.sort((a, b) => {
+    return c_n(a) = c_n(b)
   })
 
   varCode(file, code0)
