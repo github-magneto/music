@@ -1,4 +1,5 @@
 import React from 'react'
+import { HashRouter, Route, Switch } from 'react-router-dom'
 
 import Music from './view/Page.Music'
 import Base64 from './view/Page.Base64'
@@ -10,8 +11,12 @@ function App() {
     <Message />
     <Spin />
 
-    {/* <Base64 /> */}
-    <Music />
+    <HashRouter>
+      <Switch>
+        <Route path='/' exact><Music /></Route>
+        <Route path='/Base64' exact><Base64 /></Route>
+      </Switch>
+    </HashRouter>
   </>
 }
 

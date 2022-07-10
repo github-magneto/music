@@ -34,6 +34,17 @@ const parseUrl = async (list) => {
   }
 }
 
+const deleteSpace = () => {
+  const pathname = '../media/console.piano.json'
+
+  var file = require(pathname)
+
+  fs.writeFileSync(path.join(__dirname, pathname), JSON.stringify(file))
+
+}
+
+deleteSpace()
+
 const run = async () => {
   const pathname = '../media/console.piano.json'
   const pathname_ = '../media/console.piano.json'
@@ -148,4 +159,4 @@ const run = async () => {
   fs.writeFileSync(path.join(__dirname, pathname_), JSON.stringify(file))
 }
 
-run()
+// run()

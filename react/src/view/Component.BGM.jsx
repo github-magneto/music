@@ -58,19 +58,19 @@ function App() {
     }
   }, [Imitation.state.bgmCollection])
 
-  React.useEffect(() => {
-    if (Imitation.state.bgm) return
+  // React.useEffect(() => {
+  //   if (Imitation.state.bgm) return
 
-    const need = currentBgmCollection.dependencies.filter(i => !Imitation.state.media.find(i_ => i_.name === i))
-    if (need.length) return
+  //   const need = currentBgmCollection.dependencies.filter(i => !Imitation.state.media.find(i_ => i_.name === i))
+  //   if (need.length) return
 
-    const group = Imitation.state.media
-      .filter(i => currentBgmCollection.dependencies.includes(i.name))
-      .reduce((t, i) => [...t, ...i.source], [])
+  //   const group = Imitation.state.media
+  //     .filter(i => currentBgmCollection.dependencies.includes(i.name))
+  //     .reduce((t, i) => [...t, ...i.source], [])
 
-    Imitation.state.bgm = group[0].name
-    Imitation.setState(Imitation.state)
-  }, [Imitation.state.bgmCollection, Imitation.state.media])
+  //   Imitation.state.bgm = group[0].name
+  //   Imitation.setState(Imitation.state)
+  // }, [Imitation.state.bgmCollection, Imitation.state.media])
 
   if (!currentBgm) return null
 
