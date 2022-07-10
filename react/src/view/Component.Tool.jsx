@@ -62,6 +62,8 @@ function BGM() {
   const currentBgmCollectionOptions = React.useMemo(() => {
     const currentBgmCollection = bgmCollectionOptions.find(i => i.name === Imitation.state.bgmCollection)
 
+    if (!currentBgmCollection) return
+
     const group = Imitation.state.media
       .filter(i => currentBgmCollection.dependencies.includes(i.name))
       .reduce((t, i) => [...t, ...i.source], [])
@@ -77,7 +79,7 @@ function BGM() {
     </Select>
     <List style={{ width: '100%', overflow: 'auto', flexGrow: 1 }}>
       {
-        currentBgmCollectionOptions.map(i => {
+        currentBgmCollectionOptions && currentBgmCollectionOptions.map(i => {
           return <ListItem disablePadding>
             <ListItemButton onClick={() => Imitation.assignState({ bgm: i.name })}>
               <ListItemText sx={{ '& .MuiTypography-root': { fontWeight: 'bold' } }}>{i.name}</ListItemText>

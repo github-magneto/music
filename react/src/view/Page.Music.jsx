@@ -34,10 +34,6 @@ function App() {
       Imitation.assignState({ screenWidth: document.documentElement.clientWidth, screenHeight: document.documentElement.clientHeight })
     }
     e()
-
-    window.addEventListener('resize', e)
-
-    return () => window.removeEventListener('resize', e)
   }, [])
 
   if (!Imitation.state.screenWidth || !Imitation.state.screenHeight) return null

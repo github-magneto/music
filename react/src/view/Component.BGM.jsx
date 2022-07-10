@@ -23,6 +23,8 @@ function App() {
   }, [Imitation.state.bgmCollection])
 
   const currentBgm = React.useMemo(() => {
+    if (!currentBgmCollection) return
+
     const need = currentBgmCollection.dependencies.filter(i => !Imitation.state.media.find(i_ => i_.name === i))
 
     if (need.length) return
@@ -37,6 +39,8 @@ function App() {
   }, [Imitation.state.bgm, Imitation.state.media])
 
   React.useEffect(() => {
+    if (!currentBgmCollection) return
+    
     const need = currentBgmCollection.dependencies.filter(i => !Imitation.state.media.find(i_ => i_.name === i))
 
     if (need.length) {
