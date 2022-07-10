@@ -122,7 +122,7 @@ function ConsoleCorePiano(props) {
           })
         }
       </div>
-      <div style={{ width: 616, height: 440, display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
+      <div style={{ width: 440, height: 616, display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
         {
           props.media['console.piano.json'].filter(i => i.name.includes('M') && !['A0', 'B0', 'C8', 'A0M'].includes(i.name)).map((i, index) => {
             return <ConsoleButtonGradientRender {...i} />

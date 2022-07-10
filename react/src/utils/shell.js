@@ -36,7 +36,7 @@ const parseUrl = async (list) => {
 
 const run = async () => {
   const pathname = '../media/console.piano.json'
-  const pathname_ = '../media/console.piano2.json'
+  const pathname_ = '../media/console.piano.json'
 
   var file = require(pathname)
 
@@ -51,18 +51,26 @@ const run = async () => {
     '6': 'C',
     '7': 'V',
 
-    'A': 'J',
-    'B': 'H',
-    'C': 'U',
-    'D': 'I',
-    'E': 'K',
-    'F': 'M',
-    'G': 'N',
+    'A': 'M',
+    'B': 'N',
+    'C': 'J',
+    'D': 'H',
+    'E': 'U',
+    'F': 'I',
+    'G': 'K',
   }
 
   var codeMap_ = {
-    'A': 1,
-    'B': 2,
+    '1': 100,
+    '2': 200,
+    '3': 300,
+    '4': 400,
+    '5': 500,
+    '6': 600,
+    '7': 700,
+
+    'A': 8,
+    'B': 9,
     'C': 3,
     'D': 4,
     'E': 5,
@@ -70,10 +78,10 @@ const run = async () => {
     'G': 7,
   }
 
-  const c_n = (c) => {
-    var [a, b, c] = c.split('')
+  const c_n = (code) => {
+    var [a, b, c] = code.split('')
 
-    return b * 100 + codeMap_(a) + c ? 0.5 : 0
+    return codeMap_[a] + codeMap_[b] + (c ? 0.5 : 0)
   }
 
 
@@ -134,10 +142,8 @@ const run = async () => {
   })
 
   file = file.sort((a, b) => {
-    return c_n(a) = c_n(b)
+    return c_n(a.name) - c_n(b.name)
   })
-
-  varCode(file, code0)
 
   fs.writeFileSync(path.join(__dirname, pathname_), JSON.stringify(file))
 }
