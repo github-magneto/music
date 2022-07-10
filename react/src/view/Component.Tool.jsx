@@ -70,9 +70,9 @@ function BGM() {
   }, [Imitation.state.bgmCollection, Imitation.state.media])
 
   return <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
-    <Select value={Imitation.state.bgmCollection} onChange={(e) => Imitation.assignState({ bgmCollection: e.target.value, bgm: null })} fullWidth style={{ marginBottom: 12, fontWeight: 'bold' }}>
+    <Select value={Imitation.state.bgmCollection} onChange={(e) => Imitation.assignState({ bgmCollection: e.target.value, bgm: null })} fullWidth style={{ marginBottom: 12, fontWeight: 'bold' }} color='secondary'>
       {
-        bgmCollectionOptions.map(i => <MenuItem key={i.name} value={i.name}>{i.name}</MenuItem>)
+        bgmCollectionOptions.map(i => <MenuItem key={i.name} value={i.name} style={{ fontWeight: 'bold' }}>{i.name}</MenuItem>)
       }
     </Select>
     <List style={{ width: '100%', overflow: 'auto', flexGrow: 1 }}>
@@ -119,7 +119,7 @@ function App() {
   }
 
   return <>
-    <Fab onClick={() => setOpen(true)}><SettingsIcon /></Fab>
+    <Fab color='secondary' onClick={() => setOpen(true)}><SettingsIcon /></Fab>
 
     <Dialog open={open} sx={{ '& .MuiDialog-paper': { width: '100%', maxWidth: '1080px', height: '720px', maxHeight: Imitation.state.screenHeight - 200 } }} onClose={onClose}>
       <DialogContent dividers>

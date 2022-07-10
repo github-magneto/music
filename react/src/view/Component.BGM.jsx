@@ -74,7 +74,7 @@ function App() {
 
   if (!currentBgm) return null
 
-  return <audio key={currentBgm.src} loop autoPlay controls style={{ width: '100%' }}><source src={currentBgm.src} /></audio>
+  return <audio key={currentBgm.src} loop autoPlay controls style={{ width: '100%', opacity: 0.5 }}><source src={currentBgm.src} /></audio>
 }
 
 export default App
