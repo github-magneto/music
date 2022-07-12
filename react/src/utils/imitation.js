@@ -16,7 +16,7 @@ ImitationINS.state = {
 
   media: [],
 
-  console: 'Piano',
+  console: null,
   bgmCollection: null,
   bgm: null,
 

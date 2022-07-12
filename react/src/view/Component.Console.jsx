@@ -186,6 +186,8 @@ function App() {
   }, [Imitation.state.console])
 
   const currentMedia = React.useMemo(() => {
+    if (!currentConsole) return
+
     const need = currentConsole.dependencies.filter(i => !Imitation.state.media.find(i_ => i_.name === i))
     if (need.length) return
 
@@ -195,7 +197,7 @@ function App() {
   }, [Imitation.state.console, Imitation.state.media])
 
   React.useEffect(() => {
-    const currentConsole = consoleCoreOptions.find(i => i.name === Imitation.state.console)
+    if (!currentConsole) return
 
     const need = currentConsole.dependencies.filter(i => !Imitation.state.media.find(i_ => i_.name === i))
 
@@ -228,7 +230,7 @@ function App() {
     if (size < 1) Imitation.assignState({ scale: size })
   }, [currentMedia])
 
-  return currentMedia ? <currentConsole.component media={currentMedia} /> : null
+  return currentConsole && currentMedia ? <currentConsole.component media={currentMedia} /> : null
 }
 
 export default App
