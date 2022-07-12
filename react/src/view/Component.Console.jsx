@@ -9,15 +9,16 @@ function ConsoleButton(props) {
   const { name, src, url, codeInclued, codeMain, codeExclude, stay, style } = props
 
   const ref = React.useRef()
-  const audioRef = React.useRef(new Audio(src))
+  const audioRef = React.useRef()
 
   const [click, setClick] = React.useState(false)
 
   const onClick = () => {
-    if (Imitation.state.cover) audioRef.current.pause()
-    audioRef.current = new Audio(src)
-    audioRef.current.volume = Imitation.state.volume
-    audioRef.current.play()
+    if (src) {
+      audioRef.current = new Audio(src)
+      audioRef.current.volume = Imitation.state.volume
+      audioRef.current.play()
+    }
     setClick(true)
     if (ref.current) clearTimeout(ref.current)
     ref.current = setTimeout(() => { setClick(false); ref.current = null }, 500)
