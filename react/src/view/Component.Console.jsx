@@ -2,18 +2,22 @@ import React from 'react'
 
 import { Tooltip } from '@mui/material'
 
-import { musicPlay, includesArray, agent } from '../utils/common'
+import { includesArray, agent } from '../utils/common'
 import Imitation from '../utils/imitation'
 
 function ConsoleButton(props) {
   const { name, src, url, codeInclued, codeMain, codeExclude, stay, style } = props
 
   const ref = React.useRef()
+  const audioRef = React.useRef(new Audio(src))
 
   const [click, setClick] = React.useState(false)
 
   const onClick = () => {
-    if (src) musicPlay(src)
+    if (Imitation.state.cover) audioRef.current.pause()
+    audioRef.current = new Audio(src)
+    audioRef.current.volume = Imitation.state.volume
+    audioRef.current.play()
     setClick(true)
     if (ref.current) clearTimeout(ref.current)
     ref.current = setTimeout(() => { setClick(false); ref.current = null }, 500)
@@ -62,7 +66,11 @@ function ConsoleButton(props) {
   }, [clicking])
 
   const R = <div style={{ display: 'inline-block' }}>
-    <div style={style_} onMouseDown={agent() === 'pc' ? onClick : undefined} onTouchStart={agent() === 'phone' ? onClick : undefined}>
+    <div
+      style={style_}
+      onMouseDown={agent() === 'pc' ? onClick : undefined}
+      onTouchStart={agent() === 'phone' ? onClick : undefined}
+    >
       <div>{name ? name : ''}</div>
     </div>
   </div>

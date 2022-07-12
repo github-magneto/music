@@ -41,6 +41,16 @@ function System() {
       <div style={{ fontWeight: 'bold', marginLeft: 24, minWidth: 100 }}>Tooltip</div>
       <Switch checked={Imitation.state.tooltip} onChange={(e) => onChange((value) => value.tooltip = e.target.checked)} color='secondary' />
     </Grid>
+
+    <Grid item xs={12} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div style={{ fontWeight: 'bold', marginLeft: 24, minWidth: 100 }}>Cover</div>
+      <Switch checked={Imitation.state.cover} onChange={(e) => onChange((value) => value.cover = e.target.checked)} color='secondary' />
+    </Grid>
+
+    <Grid item xs={12} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div style={{ fontWeight: 'bold', marginLeft: 24, minWidth: 100 }}>Volume</div>
+      <Slider value={Imitation.state.volume} onChange={(e, v) => onChange((value) => value.volume = v)} min={0} max={1} step={0.01} valueLabelDisplay='auto' color='secondary' />
+    </Grid>
   </Grid>
 }
 

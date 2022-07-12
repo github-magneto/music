@@ -11,6 +11,8 @@ ImitationINS.state = {
 
   tooltip: false,
   scale: 1,
+  volume: 0.5,
+  cover: false,
 
   media: [],
 
