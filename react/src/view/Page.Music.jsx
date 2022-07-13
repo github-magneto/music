@@ -41,9 +41,9 @@ function App() {
 
   return <div style={{ width: Imitation.state.screenWidth, height: Imitation.state.screenHeight, position: 'relative' }}>
 
-    <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, margin: 'auto', width: '100%', height: '100%' }}>
+    {/* <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, margin: 'auto', width: '100%', height: '100%' }}>
       <Canvas />
-    </div>
+    </div> */}
 
     <div style={{ width: '100%', height: '100%', overflow: 'hidden' }}>
       <div style={{ position: 'relative', width: '100%', height: '100%', transform: `scale(${Imitation.state.scale})`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
